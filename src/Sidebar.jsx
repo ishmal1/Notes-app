@@ -5,11 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
-
 export default function Sidebar({setNote}) {
     
 const [open, setOpen] =useState(false);
-
 
   const colors =[
     "#fa7154",
@@ -45,8 +43,7 @@ const [open, setOpen] =useState(false);
       className={`transition-transform duration-300 ${
         open ? 'rotate-45' : 'rotate-0'
       }`}
-      />
-       
+      /> 
       </button>
       {open && (<div className='flex md:flex-col md:flex-wrap justify-center md:ml-10 md:mt-5 mt-3 gap-2 colors '>
         {colors.map((colors,index)=>{
@@ -60,7 +57,6 @@ const [open, setOpen] =useState(false);
         })}
       </div>)}
         </div>
-
     </>
   )
 }
