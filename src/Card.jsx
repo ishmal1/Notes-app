@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, {useState,useEffect, useRef } from 'react'
 
 export default function Card({
     
@@ -9,10 +9,9 @@ export default function Card({
     setNote,
 
 }) {
-    
   
     const textRef = useRef(null)
-    
+
     const updateNote =(id, value)=>{
         setNote((prev)=>prev.map((note)=> note.noteId ===id ? {...note, text: value}: note))
       }
@@ -32,6 +31,7 @@ export default function Card({
     placeholder='Write here...'
     ref={textRef}
     defaultValue={text}
+    onChange={(e) => setLocalText(e.target.value)}
     className=' scroll-none overflow-hidden w-full h-40 bg-transparent rounded-md resize-none outline-none focus:outline-none p-2'>
     
     </textarea>
@@ -42,12 +42,12 @@ export default function Card({
     </div>
     <div className=' w-full space-x-4 inline-flex'>
     <button 
-    className=' w-full rounded-full p-2 bg-black text-white'
+    className=' w-full rounded-full p-2 bg-black text-white  hover:bg-zinc-900'
     onClick={()=>updateNote(id, textRef.current.value)} >
     save
     </button>
     <button 
-    className='w-full rounded-full p-2  bg-black text-white  '
+    className='w-full rounded-full p-2  bg-black text-white  hover:bg-zinc-900  '
     onClick={()=>{deleteNote(id)}}>
     delete
     </button>
