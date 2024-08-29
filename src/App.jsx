@@ -8,19 +8,32 @@ import './App.css'
 
 function App() {
 
-  const [note, setNote] =useState([])
-
-  useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem('notes') || []);
-    if (savedNotes.length > 0) {
-      setNote(savedNotes);
-    }
-    else [];
-  }, []);
+  const [notes, setNotes] =useState([])
 
   useEffect(()=>{
-    localStorage.setItem('notes', JSON.stringify(note))
-  },[note])
+    refreshNotes()
+  },[])
+  // useEffect(() => {
+  //   const savedNotes = JSON.parse(localStorage.getItem('notes') || []);
+  //   if (savedNotes.length > 0) {
+  //     setNotes(savedNotes);
+  //   }
+  //   else [];
+  // }, []);
+
+  // useEffect(()=>{
+  //   localStorage.setItem('notes', JSON.stringify(notes))
+  // },[notes])
+
+
+  function refreshNotes() {
+    const savedNotes = localStorage.getItem('notes');
+    const parsedNotes = savedNotes ? JSON.parse(savedNotes) : [];
+    setNotes(parsedNotes);
+
+  
+    console.log(savedNotes)
+  };
   
   return (
     <>
@@ -28,17 +41,17 @@ function App() {
      <div className="wrapper h-full w-full md:px-8 px-7 flex flex-col md:flex-row lg:gap-x-20 gap-x-40 justify-center ">
         <section>
         <Sidebar 
-          setNote={setNote}/>
+        refreshNotes={refreshNotes}/>
         </section>
         <section className=' w-500 md:flex-wrap flex-nowrap flex md:flex-row flex-col flex-1 md:mt-0 mt-7 justify-start gap-7'>
-        {note && note.map((note, index) => (
+        {notes && notes?.map((notes, index) => (
         <Card 
-          key={note.noteId} 
-          id={note.noteId}
-          color={note.color}
-          date={note.date}
-          text={note.text}
-          setNote={setNote}
+          key={notes.noteId} 
+          id={notes.noteId}
+          color={notes.color}
+          date={notes.date}
+          text={notes.text}
+          refreshNotes={refreshNotes}
           />
         ))}
         </section>

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function Sidebar({setNote}) {
+export default function Sidebar({refreshNotes}) {
     
 const [open, setOpen] =useState(false);
 
@@ -18,7 +18,9 @@ const [open, setOpen] =useState(false);
     "#50DBB4",
     "#35BDD0",
     "#CAD5E2",]
-
+    
+   
+  
     const addNewNote = (color) => {
         const id = new Date().getTime();
         const newNote = {
@@ -27,11 +29,15 @@ const [open, setOpen] =useState(false);
           date: new Date().toLocaleDateString(),
           color: color,
         };
-        setNote((prevNote) => [ newNote, ...prevNote,]);
-        setOpen(!open)
-      };
-      
+          
+       const savedNotes = JSON.parse(localStorage.getItem('note')) || []
 
+      const updatednote = Array.isArray(savedNotes)? [newNote, ...savedNotes] :[newNote]
+      
+       localStorage.setItem('note', JSON.stringify(updatednote))
+      refreshNotes(); 
+      
+      }
   return (
     <>
     <div className='icon flex md:flex-col gap-2 lg:mr-20'>
@@ -60,5 +66,3 @@ const [open, setOpen] =useState(false);
     </>
   )
 }
-
-
