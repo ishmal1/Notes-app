@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-
 import Card from './Card';
 import Sidebar from './Sidebar';
 
@@ -13,25 +12,12 @@ function App() {
   useEffect(()=>{
     refreshNotes()
   },[])
-  // useEffect(() => {
-  //   const savedNotes = JSON.parse(localStorage.getItem('notes') || []);
-  //   if (savedNotes.length > 0) {
-  //     setNotes(savedNotes);
-  //   }
-  //   else [];
-  // }, []);
-
-  // useEffect(()=>{
-  //   localStorage.setItem('notes', JSON.stringify(notes))
-  // },[notes])
-
 
   function refreshNotes() {
     const savedNotes = localStorage.getItem('notes');
     const parsedNotes = savedNotes ? JSON.parse(savedNotes) : [];
     setNotes(parsedNotes);
 
-  
     console.log(savedNotes)
   };
   

@@ -22,7 +22,7 @@ const [open, setOpen] =useState(false);
    
   
     const addNewNote = (color) => {
-        const id = new Date().getTime();
+      const id = new Date().getTime();
         const newNote = {
           noteId: id,
           text: "",
@@ -30,11 +30,11 @@ const [open, setOpen] =useState(false);
           color: color,
         };
           
-       const savedNotes = JSON.parse(localStorage.getItem('note')) || []
+      const savedNotes = JSON.parse(localStorage.getItem('notes')) || []
 
       const updatednote = Array.isArray(savedNotes)? [newNote, ...savedNotes] :[newNote]
       
-       localStorage.setItem('note', JSON.stringify(updatednote))
+      localStorage.setItem('notes', JSON.stringify(updatednote))
       refreshNotes(); 
       
       }
