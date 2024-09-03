@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const  Note = require('../models/noteModel')
 
-router.get ("/note", async(req, res)=>{
+router.get ("/notes", async(req, res)=>{
     try{
     const notes = await Note.find().sort({ createdAt: -1 });
     res.status(200).json(notes)}
@@ -14,7 +14,7 @@ router.get ("/note", async(req, res)=>{
 })
 
 
-router.post('/note', async (req,res)=>{
+router.post('/notes', async (req,res)=>{
     try{
         console.log('Request Body:', req.body); 
         const {noteId, text, date , color}= req.body
@@ -32,7 +32,7 @@ router.post('/note', async (req,res)=>{
     }
 })
 
-router.delete('/note/:id', async(req,res)=>{
+router.delete('/notes/:id', async(req,res)=>{
     try{
         const id= req.params.id
         console.log('Received ID:', id); 
@@ -47,7 +47,7 @@ router.delete('/note/:id', async(req,res)=>{
     }
 })
 
-router.patch('/note/:id', async(req,res)=>{
+router.patch('/notes/:id', async(req,res)=>{
     try{
         const id= req.params.id
         const {noteId, text, date , color}= req.body
