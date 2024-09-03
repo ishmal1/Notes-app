@@ -53,7 +53,7 @@ router.patch('/notes/:id', async(req,res)=>{
         const {noteId, text, date , color}= req.body
         const notes = await Note.findById(id)
         if(notes){
-        const note = await Note.updateOne({
+        const note = await Note.findByIdAndUpdate(id, {
             noteId,
             text,
             date,
