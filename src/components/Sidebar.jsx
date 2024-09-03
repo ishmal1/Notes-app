@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState} from 'react';
-
+import api from '../api/notes'
+import {v4 as uuidv4} from 'uuid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,26 +22,33 @@ const [open, setOpen] =useState(false);
     
    
   
-    const addNewNote = (color) => {
+    const addNewNote =  async(color) => {
       const id = new Date().getTime();
         const newNote = {
           noteId: id,
           text: "",
-          date: new Date().toLocaleDateString(),
+          date: new Date(),
           color: color,
         };
-          
-      const savedNotes = JSON.parse(localStorage.getItem('notes')) || []
-
-      const updatednote = Array.isArray(savedNotes)? [newNote, ...savedNotes] :[newNote]
+        const request = {
+          _id: uuidv4(),
+          ...newNote
+        }
       
-      localStorage.setItem('notes', JSON.stringify(updatednote))
+        
+    try {
+      const response = await api.post('/note', request);
+      console.log('Note added successfully:', response.data);
       refreshNotes(); 
-      
-      }
+    } catch (error) {
+      console.log('Error adding note:', error.response ? error.response.data : error.message);
+    }
+      };
+    
   return (
     <>
     <div className='icon flex md:flex-col gap-2 lg:mr-20'>
+
       <button 
       onClick={()=>{setOpen(!(open))}}
       className=' bg-black shadow-md shadow-gray-500 md:ml-8  justify-center rounded-full md:px-3 px-3 py-2 md:py-3 transition-transform md:w-12 md:h-12 '>
@@ -52,12 +60,12 @@ const [open, setOpen] =useState(false);
       /> 
       </button>
       {open && (<div className='flex md:flex-col md:flex-wrap justify-center md:ml-10 md:mt-5 mt-3 gap-2 colors '>
-        {colors.map((colors,index)=>{
+        {colors.map((color,index)=>{
           return <div 
           key={index}
           className='rounded-full border-slate-600 border-2 border-opacity-20 shadow-md hover:shadow-xl shadow-gray-500 p-2 cursor-pointer md:w-6 w-3 md:h-6 h-3 '
-          style={{backgroundColor : colors}}
-          onClick={()=>{addNewNote(colors)}}
+          style={{backgroundColor : color}}
+          onClick={()=>{addNewNote(color)}}
          >
           </div>
         })}
@@ -65,4 +73,5 @@ const [open, setOpen] =useState(false);
         </div>
     </>
   )
+
 }

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import Card from './Card';
-import Sidebar from './Sidebar';
+import api from '../src/api/notes'
+
+import Card from './components/Card';
+import Sidebar from './components/Sidebar';
 
 import './App.css'
 
@@ -10,15 +12,19 @@ function App() {
   const [notes, setNotes] =useState([])
 
   useEffect(()=>{
-    refreshNotes()
+    retrieveNotes()
   },[])
 
-  function refreshNotes() {
-    const savedNotes = localStorage.getItem('notes');
-    const parsedNotes = savedNotes ? JSON.parse(savedNotes) : [];
-    setNotes(parsedNotes);
-
-    console.log(savedNotes)
+  async function retrieveNotes() {
+    try {
+      const response = await api.get('/note'); 
+      const savedNotes = response.data;
+      if (Array.isArray(savedNotes)) setNotes(savedNotes);
+      else console.error('Notes data is not an array:', savedNotes);
+  
+    } catch (error) {
+      console.error('Failed to retrieve notes:', error);
+    }
   };
   
   return (
@@ -27,17 +33,17 @@ function App() {
      <div className="wrapper h-full w-full md:px-8 px-7 flex flex-col md:flex-row lg:gap-x-20 gap-x-40 justify-center ">
         <section>
         <Sidebar 
-        refreshNotes={refreshNotes}/>
+        refreshNotes={retrieveNotes}/>
         </section>
         <section className=' w-500 md:flex-wrap flex-nowrap flex md:flex-row flex-col flex-1 md:mt-0 mt-7 justify-start gap-7'>
-        {notes && notes?.map((notes, index) => (
+        {Array.isArray(notes) && notes?.map((notes, index) => (
         <Card 
-          key={notes.noteId} 
-          id={notes.noteId}
+          key={notes._id} 
+          id={notes._id}
           color={notes.color}
           date={notes.date}
           text={notes.text}
-          refreshNotes={refreshNotes}
+          refreshNotes={retrieveNotes}
           />
         ))}
         </section>

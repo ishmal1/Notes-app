@@ -1,4 +1,5 @@
-import React, {useState,useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
+import api from '../api/notes'
 
 export default function Card({
   
@@ -9,25 +10,18 @@ export default function Card({
     refreshNotes
 }) {
   
+    const formattedDate = new Date(date).toLocaleDateString();
     const textRef = useRef(null)
 
-    const updateNote =(id, value)=>{
-      const savedNotes = localStorage.getItem('notes')
-      const note = savedNotes? JSON.parse(savedNotes): [];
-      const updatedNote = note.map((note)=> note.noteId ===id ? {...note, text: value}: note)
-      
-      localStorage.setItem('notes', JSON.stringify(updatedNote))
+    const updateNote =async(id, value)=>{
+      await api.patch(`/note/${id}`, {text: value})
       refreshNotes()
       }
 
-    function deleteNote(id) {
-      const savedNotes = localStorage.getItem('notes')
-      const note = savedNotes? JSON.parse(savedNotes): [];
-
-      const notesAfterDeletion = note.filter((note)=>note.noteId !== id)
-
-      localStorage.setItem('notes', JSON.stringify(notesAfterDeletion))
+    async function deleteNote(id) {
+      await api.delete(`/note/${id}`)
       refreshNotes()
+     
      }
     
   return (
@@ -44,8 +38,7 @@ export default function Card({
     </textarea>
     <footer className='w-full flex mt-auto justify-between'>
     <div className=' w-full mt-2'>
-     {date} 
-     {console.log(date)}
+     {formattedDate} 
     </div>
     <div className=' w-full space-x-4 inline-flex'>
     <button 
