@@ -1,0 +1,12 @@
+
+.card_container{
+  height: 12rem;
+  width: 20rem;
+}
+
+@media only screen and (max-width: 320px){
+  .card_container{
+    height: 11rem;
+    width: 17rem;
+  }
+}
