@@ -12,7 +12,7 @@ const port = process.env.port
 
 mongoose.connect(process.env.dbUrl)
 .then(()=>{
-    console.log("databade connected")
+    console.log("database connected")
 })
 .catch((error)=>{
     console.log(error)

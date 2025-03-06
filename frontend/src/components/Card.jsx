@@ -14,7 +14,7 @@ export default function Card({
   const deleteMutation = useMutation({
     mutationFn: deleteNote,
     onSuccess:()=> {
-      refreshNotes()
+    queryClient.invalidateQueries('notes');
 
     },
     onError : (error)=>{
@@ -25,7 +25,7 @@ export default function Card({
   const updateMutation = useMutation({
     mutationFn: updateNote,
     onSuccess:()=> {
-      refreshNotes()
+     queryClient.invalidateQueries('notes');
 
     },
     onError : (error)=>{

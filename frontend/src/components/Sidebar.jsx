@@ -12,7 +12,7 @@ export default function Sidebar({ refreshNotes }) {
   const {mutate} =useMutation({
     mutationFn: postNotes,
     onSuccess:()=> {
-      refreshNotes()
+     queryClient.invalidateQueries('notes');
     },
     onError: ()=>{
       console.log('notes not found', error.message)
